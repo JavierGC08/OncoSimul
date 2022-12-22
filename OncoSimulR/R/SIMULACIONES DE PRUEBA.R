@@ -1,9 +1,9 @@
 
 dfat <- data.frame(Genotype = c("WT", "B", "A", "B, A"),
-                   Fitness = c("0*n_+1.9",
-                               "1.7",
-                               "1.7",
-                               "1.5"))
+                   Fitness = c("0*n_+1.5",
+                               "1.2",
+                               "1.2",
+                               "1.0"))
 
 afe2 <- allFitnessEffects(genotFitness = dfat,
                           frequencyDependentFitness = TRUE,
@@ -44,29 +44,46 @@ variables_modelo <- list(
        Value       = 0.5
   ),
   list(Name = "x",
-       Value = 0.2
+       Value = 0.4
   ),
   list(Name = "y",
-       Value = 0.2),
+       Value = 0.3),
   list(Name = "u",
-       Value= 0.01))
+       Value= 0.0001),
+  list(Name = "user_var1",
+       Value= 0.0001)
+  )
 
 rules <- list(
-  list(ID="Calcular media de alfa Ma",
-       Condition= "TRUE",
-       Action= ),
+  list(ID = "rule_1",
+       Condition = "(n_B + n_A_B) > n_",
+       Action = "y = 0"
+  ),list(ID = "rule_2",
+         Condition = "(n_A + n_A_B) > n_",
+         Action = "x = 0"
+  ),list(ID = "rule_3",
+         Condition = "(n_A + n_A_B) < n_",
+         Action = "x = 0.4"
+  ),list(ID = "rule_4",
+         Condition = "(n_B + n_A_B) < n_",
+         Action = "y = 0.3"
   )
+)
+
+rules <- createRules(rules, afe2)
+
 v_Model <- createUserVars(variables_modelo)  
                         
 inter2 <- createInterventions(intervenciones,afe2)
 
 simu2 <- oncoSimulIndiv(afe2,
                initMutant = c("WT", "B", "A", "B, A"),
-               initSize = c(9100,300,300,300),
-               finalTime = 20,
+               initSize = c(900,300,300,300),
+               finalTime = 50,
                interventions = inter2,
                mu=0.00000000001,
                userVars = v_Model,
+               rules=rules,
                keepEvery = 1)
 plot(simu2,show="genotypes")
 
@@ -82,4 +99,5 @@ lines(time,freqs[,3],type="l",col="#1B9E89")
 lines(time,freqs[,4],type="l",col="red")
 
 unlist(simu2$other)
-
+a= unlist(simu2$other$userVarValues)
+a

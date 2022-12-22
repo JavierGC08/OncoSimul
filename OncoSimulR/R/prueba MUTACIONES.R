@@ -51,7 +51,7 @@ simu2 <- oncoSimulIndiv(afe2,
                         userVars = v_Model,
                         model="McFL",
                         K=3000,
-                        mu=0.1,
+                        mu=0.0000001,
                         keepEvery = 1)
 plot(simu2,show="genotypes")
 
