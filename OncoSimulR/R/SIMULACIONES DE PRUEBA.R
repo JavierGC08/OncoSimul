@@ -79,7 +79,7 @@ inter2 <- createInterventions(intervenciones,afe2)
 simu2 <- oncoSimulIndiv(afe2,
                initMutant = c("WT", "B", "A", "B, A"),
                initSize = c(900,300,300,300),
-               finalTime = 50,
+               finalTime = 80,
                interventions = inter2,
                mu=0.00000000001,
                userVars = v_Model,
@@ -101,3 +101,4 @@ lines(time,freqs[,4],type="l",col="red")
 unlist(simu2$other)
 a= unlist(simu2$other$userVarValues)
 a
+
