@@ -1,4 +1,5 @@
-
+library("OncoSimulR")
+library("testthat")
 dfat <- data.frame(Genotype = c("WT", "B", "A", "B, A"),
                    Fitness = c("1.1  -0.01*n_/N + n_A*0.01*0.5/N  + n_B*0.01*0.5/N",
                                "1.05  - 0.01*n_B/N + n_*0.01*0.5/N  + n_A_B*0.01*0.5/N",
@@ -79,4 +80,11 @@ simu2 <- oncoSimulIndiv(afe2,
                         keepEvery = 1)
 plot(simu2,show="genotypes")
 
+#tests
+pobs <- unlist(simu2$pops.by.time)[,2:5]
+pobs
+totalpob <- rowSums(unlist(simu2$pops.by.time)[,2:5])
+totalpob
+stopifnot(totalpob<4000)
+stopifnot(pobs[, 1]>0)
 
