@@ -32,7 +32,7 @@ rules <- list(
        Condition = "n_ <= 500",
        Action = "treatment_1 = 0"
   ),list(ID = "rule_5",
-         Condition = "n_ > 1000",
+         Condition = "n_ >= 1000",
          Action = "treatment_1 = 1"
   )
 )
@@ -68,10 +68,10 @@ inter2 <- createInterventions(intervenciones,afe2)
 
 
 evalAllGenotypes(afe2,spPopSizes = c(900,33,33,33))
-
+initSize = c(1000,30,30,30)
 simu2 <- oncoSimulIndiv(afe2,
                         initMutant = c("WT", "B", "A", "B, A"),
-                        initSize = c(1000,30,30,30),
+                        initSize = initSize,
                         finalTime = 1000,
                         mu=0.00000000001,
                         userVars = v_Model,
@@ -85,6 +85,9 @@ pobs <- unlist(simu2$pops.by.time)[,2:5]
 pobs
 totalpob <- rowSums(unlist(simu2$pops.by.time)[,2:5])
 totalpob
-stopifnot(totalpob<4000)
+
+stopifnot(totalpob<(length(initSize)*sum(initSize)))
 stopifnot(pobs[, 1]>0)
+
+
 
