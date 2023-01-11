@@ -5,10 +5,10 @@ library("OncoSimulR")
 #Aplication of the mutational restrictions to the fitness of each strain
 
 dfat <- data.frame(Genotype = c("WT", "B", "A", "B, A"),
-                   Fitness = c("1.1 - 0.01*n_/N + n_A*0.01*0.5/N  + n_B*0.01*0.5/N",
-                               "1.05 - 0.01*n_B/N + n_*0.01*0.5/N  + n_A_B*0.01*0.5/N",
-                               "1.05 - 0.01*n_A/N + n_*0.01*0.5/N  + n_A_B*0.01*0.5/N",
-                               "1.01 - 0.01*n_A_B/N + n_B*0.01*0.5/N  + n_A*0.01*0.5/N"))
+                   Fitness = c("1.1 - 0.01*n_/N + n_A*0.01*0.5/N + n_B*0.01*0.5/N",
+                               "1.05 - 0.01*n_B/N + n_*0.01*0.5/N + n_A_B*0.01*0.5/N",
+                               "1.05 - 0.01*n_A/N + n_*0.01*0.5/N + n_A_B*0.01*0.5/N",
+                               "1.01 - 0.01*n_A_B/N + n_B*0.01*0.5/N + n_A*0.01*0.5/N"))
 
 afe2 <- allFitnessEffects(genotFitness = dfat,
                           frequencyDependentFitness = TRUE,
@@ -85,7 +85,7 @@ plot(simu2,show="genotypes")
 pobs <- unlist(simu2$pops.by.time)[,2:5]
 totalpob <- rowSums(unlist(simu2$pops.by.time)[,2:5])
 
-#first test checking if any strain is growing exponentially  
+#first test checking if any strain is growing out of control
 
 stopifnot(totalpob<(length(initSize)*sum(initSize)))
 
